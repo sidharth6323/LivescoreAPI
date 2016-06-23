@@ -1,0 +1,40 @@
+<html>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+<div ng-app="myApp" ng-controller="customersCtrl">
+<div ng-repeat="x in names">
+id:{$ x.id $}
+<h2>{$ x.Team $}</h2>
+<h3>{$ x.Batting_team +" "+ x.Batting_Team_Runs+"/"+x.Batting_Team_Wickets+" Overs "
++ x.Batting_Team_Overs 
+ $}</h3>
+ <h5>{$ x.Bowling_team +" "+ x.Bowling_Team_Runs+"/"+x.Bowling_Team_Wickets+" Overs "
++ x.Bowling_Team_Overs 
+ $}</h5>
+ <h4>Status: {$ x.Match_Status $}</h4>
+ Venue: {$ x.Venue $}<br>
+
+<a href="/scorecard/{$x.id$}/">full scorecard</a>
+</div>
+
+</div>
+
+
+<script>
+	var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http, $interval) {
+	
+	$interval(clickButton,1000);
+	
+	function clickButton() {
+  $http.get("http://127.0.0.1:8000/")
+  .then(function (response) {$scope.names = response.data;});}
+
+});
+var my_app = angular.module('myApp').config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('{$');
+    $interpolateProvider.endSymbol('$}');
+});
+</script>
+</body>
+</html>
